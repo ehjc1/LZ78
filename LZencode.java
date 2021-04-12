@@ -11,7 +11,7 @@ public class LZencode{
 
     public static void encode() {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
+        
 
     }
 }
