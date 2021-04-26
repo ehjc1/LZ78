@@ -19,9 +19,3 @@ public class LZencode {
 
     }
 }
-
-class Trie {
-    class Node {
-
-    }
-}
