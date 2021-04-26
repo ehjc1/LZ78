@@ -10,9 +10,11 @@ public class Trie {
 
     public MultiTrie() {
         counter = 0;
+
     }
 
     public void insert() {
+        // check if we have children
 
     }
 
