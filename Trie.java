@@ -8,12 +8,12 @@ public class Trie {
     private int level;
     private byte data;
 
-    public MultiTrie() {
+    public Trie() {
         counter = 0;
 
     }
 
-    public void insert() {
+    public void add(Byte data) {
         // check if we have children
 
     }
