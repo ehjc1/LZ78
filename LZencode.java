@@ -1,38 +1,29 @@
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.ByteArrayOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.FileInputStream;
+import java.io.Reader;
+
 
 public class LZencode {
 
-    public static void main(String[] args) {
-
+    public static void main(String[] args) throws Exception{
+        encode();
     }
 
     public static void encode() throws Exception {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        FileInputStream fis = null;
-        BufferedWriter writer = null;
-        FileWriter fw = null;
-        String fileName = "output";
+        Reader reader = new InputStreamReader(System.in);
+        
+        try { 
+            // stores byte that is read in as an integer
+            int i = reader.read();
 
-        byte[] buffer = new byte[System.in.available()];
-        try {
-            int bytesRead;
-            while ((bytesRead = System.in.read(buffer)) > 0) {
-                baos.write(buffer, 0, bytesRead);
-            }
-            byte[] bytes = baos.toByteArray();
-
-            for (int i = 0; i < bytes.length; i++) {
+            // while where are still data to be read
+            while(i != -1){
+                //writer.write((int)i);
                 System.out.println(i);
+                i = (int)reader.read();
+                
             }
-
         } catch (Exception x) {
+            // prints error
             System.err.println(x);
             x.printStackTrace();
         }

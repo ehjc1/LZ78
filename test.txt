@@ -1,8 +1,5 @@
 a
-aa
-aaa
-aa
-abbb
+b
 abba
 abbc
 bbac
