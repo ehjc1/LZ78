@@ -1,12 +1,1 @@
-a
-b
-abba
-abbc
-bbac
-aabb
-abcdd
-ddaab
-aabbe
-abedr
-rzjfgh
-rrzjjf
+aaab babaa baaa bab
