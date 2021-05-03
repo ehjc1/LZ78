@@ -47,17 +47,16 @@ public class Trie {
                 currNode.setmmChar(mmChar); // sets the mismatched char
                 currNode.setParent(parent); // set the first tuple's parent to the root
                 _children.add(currNode); // add the node to the list of children
-                //upHeap(_children.size() - 1); // call upheap to put in min heap order
-                _root = currNode; // set the root to the child we just added
+                // upHeap(_children.size() - 1); // call upheap to put in min heap order
 
             } else { // otherwise there are already items in the trie
-                if (mmChar > 0) {
+                if (mmChar > 0) { // check if the character is a valid character
                     int index = 0;
                     root = _children.get(index);
                     leftChild = _children.get(getLeftChild(index));
                     rightChild = _children.get(getReftChild(index));
-                    if(mmChar <= root.getmmChar() && leftChild != null) {
-
+                    if (mmChar < root.getmmChar() && leftChild != null) {
+                        leftChild.add(mmChar);
                     }
                     parent = _root;
                     currNode = new Trie();
@@ -81,12 +80,12 @@ public class Trie {
         Trie leftChild;
         Trie rightChild;
 
-        while(index <= _children.size()) {
+        while (index <= _children.size()) {
             root = _children.get(index);
             leftChild = _children.get(getLeftChild(index));
             rightChild = _children.get(getReftChild(index));
 
-            if(root.getmmChar() == mmChar) {
+            if (root.getmmChar() == mmChar) {
                 return root;
 
             }
@@ -111,6 +110,7 @@ public class Trie {
         return ((index + 1) * 2);
 
     }
+
     // puts children in order from lowest to highest
     private void upHeap(int nodeIndex) {
         Trie child;
