@@ -30,41 +30,34 @@ public class Trie {
     public void add(int mmChar) {
         Trie currNode;
         Trie parent;
-        Trie root;
-        Trie leftChild;
-        Trie rightChild;
-        int listSize = _children.size() - 1;
-
+        int index = 0;
         try {
             // check if the root is null or there is nothing in our trie
             if (_root == null) {
-
-                // set the head of the trie to the empty phrase
-                _root = new Trie();
-                _root._mmChar = -1;
-                parent = _root;
-                currNode = new Trie(); // set current node to the node we are adding
-                currNode.setmmChar(mmChar); // sets the mismatched char
-                currNode.setParent(parent); // set the first tuple's parent to the root
-                _children.add(currNode); // add the node to the list of children
-                // upHeap(_children.size() - 1); // call upheap to put in min heap order
-
+                if (mmChar > 0) {
+                    // set the head of the trie to the empty phrase
+                    _root = new Trie();
+                    _root._mmChar = -1;
+                    parent = _root;
+                    currNode = new Trie(); // set current node to the node we are adding
+                    currNode.setmmChar(mmChar); // sets the mismatched char
+                    currNode.setParent(parent); // set the first tuple's parent to the root
+                    _children.add(currNode); // add the node to the list of children
+                    // upHeap(_children.size() - 1); // call upheap to put in min heap order
+                }
             } else { // otherwise there are already items in the trie
                 if (mmChar > 0) { // check if the character is a valid character
-                    int index = 0;
-                    root = _children.get(index);
-                    leftChild = _children.get(getLeftChild(index));
-                    rightChild = _children.get(getReftChild(index));
-                    if (mmChar < root.getmmChar() && leftChild != null) {
-                        leftChild.add(mmChar);
+                    currNode = find(mmChar, index); // return the child that matches the mmChar
+                    parent = currNode;
+                    if (currNode != null) { // if we have found the child
+                        currNode.add(mmChar); // call the child's add function
+                    } else {
+                        parent = this._root;
+                        currNode = new Trie();
+                        currNode.setmmChar(mmChar);
+                        currNode.setParent(parent);
+                        _children.add(currNode);
                     }
-                    parent = _root;
-                    currNode = new Trie();
-                    currNode.setParent(parent);
-                    currNode.setmmChar(mmChar);
-                    _children.add(currNode);
-                    upHeap(listSize);
-                    _root = currNode;
 
                 }
             }
@@ -74,21 +67,30 @@ public class Trie {
         }
     }
 
-    public Trie find(int mmChar) {
-        int index = 0;
+    // finds a child that contains the mismatched char starting from the index
+    public Trie find(int mmChar, int index) {
         Trie root;
         Trie leftChild;
         Trie rightChild;
 
-        while (index <= _children.size()) {
-            root = _children.get(index);
-            leftChild = _children.get(getLeftChild(index));
-            rightChild = _children.get(getReftChild(index));
+        root = _children.get(index);
+        leftChild = _children.get(getLeftChild(index));
+        rightChild = _children.get(getReftChild(index));
 
-            if (root.getmmChar() == mmChar) {
-                return root;
+        if (root.getmmChar() == mmChar) { // check if the root value is the same as the mismatched char
 
-            }
+            return root; // return the that child if so
+
+        } else if (mmChar < root.getmmChar() && leftChild != null) { // check if mmChar is less than the root
+
+            return leftChild.find(mmChar, getLeftChild(index)); // if so pass the value to our leftChild
+
+        } else if (mmChar > root.getmmChar() && rightChild != null) { // check if mmChar is greater than the root
+
+            return rightChild.find(mmChar, getReftChild(index)); // if so pass mmChar to our rightChild
+
+        } else { // we couldn't find the mmChar in our list of children
+            return null; // return nothing as the mmChar is not in our arraylist of children
         }
     }
 
@@ -102,13 +104,11 @@ public class Trie {
     // returns leftchild index of the given index
     private int getLeftChild(int index) {
         return ((index + 1) * 2) - 1;
-
     }
 
     // returns Reftchild index of the given index
     private int getReftChild(int index) {
         return ((index + 1) * 2);
-
     }
 
     // puts children in order from lowest to highest
