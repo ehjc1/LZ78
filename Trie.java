@@ -16,34 +16,33 @@ public class Trie {
     // takes the current available phraseNumber followed by the mmChar
     public void add(int mmChar, int phraseNum) {
         Trie currNode;
+        Trie nextNode;
         int index = 0;
+
         try {
             // check if we are adding the empty phrase
             if (mmChar == 0) {
                 setmmChar(mmChar); // set the empty phrase
                 setPhraseNum(phraseNum);
             } else { // otherwise there are already items in the trie
-                Trie root;
-                Trie leftChild;
-                Trie rightChild;
 
                 root = _children.get(index);
                 leftChild = _children.get(getLeftChild(index));
                 rightChild = _children.get(getRightChild(index));
-                if (root.getmmChar() == mmChar) { // check if the root value is the same as the mismatched char
 
-                    root.add(mmChar, phraseNum);
+                while (index < _children.size()) {
 
-                } else if (mmChar < root.getmmChar() && leftChild != null) { // check if mmChar is less than the root
+                    if (mmChar < root.getmmChar() && leftChild != null) { // check if mmChar is less than the
+                                                                          // root
+                        leftChild.add(mmChar, phraseNum); // if so pass the value to our leftChild
 
-                    leftChild.add(mmChar, phraseNum); // if so pass the value to our leftChild
+                    } else if (mmChar > root.getmmChar() && rightChild != null) { // check if mmChar is greater than the
+                                                                                  // root
+                        rightChild.add(mmChar, phraseNum); // if so pass mmChar to our rightChild
 
-                } else if (mmChar > root.getmmChar() && rightChild != null) { // check if mmChar is greater than the
-                                                                              // root
-                    rightChild.add(mmChar, phraseNum); // if so pass mmChar to our rightChild
+                    } else { // we couldn't find the mmChar in our list of children
 
-                } else { // we couldn't find the mmChar in our list of children
-
+                    }
                 }
             }
         } catch (Exception x) {
@@ -87,11 +86,6 @@ public class Trie {
     // returns Reftchild index of the given index
     private int getRightChild(int index) {
         return ((index + 1) * 2);
-    }
-
-    // swap the position of 2 difference index
-    private void swap(int a, int b) {
-        Collections.swap(_children, a, b);
     }
 
     // get the mismatched character
