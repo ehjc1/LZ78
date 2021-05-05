@@ -6,6 +6,7 @@ import javax.lang.model.util.ElementScanner6;
 
 public class Trie {
     ArrayList<Trie> _children;
+    // Trie[] _children;
     int _mmChar;
     int _phraseNum;
 
@@ -43,30 +44,36 @@ public class Trie {
                     while (currNode != null) { // traverse our children BST
                         // check if mmChar is less than the root
                         if (mmChar < currNode.getmmChar()) {
-                            index = currNode.getLeftChild(index); // sets the new index to the leftChild index
-                            if (index < _children.size() - 1) {
-                                if (_children.get(index) == null) {
+                            index = getLeftChild(index); // sets the new index to the leftChild index
+                            if (index < _children.size()) {
+                                currNode = _children.get(index);
+                                if (currNode == null) {
                                     currNode = new Trie();
                                     currNode.setmmChar(mmChar);
                                     currNode.setPhraseNum(phraseNum);
                                     _children.add(index, currNode);
                                     break;
-                                } else if (_children.get(index) != null) {
-                                    currNode = _children.get(index);
                                 }
+                                // else {
+                                // index = getLeftChild(index);
+                                // currNode = _children.get(index);
+                                // }
                             }
                         } else if (mmChar > currNode.getmmChar()) {
-                            index = currNode.getRightChild(index);
-                            if (index < _children.size() - 1) {
-                                if (_children.get(index) == null) {
+                            index = getRightChild(index);
+                            if (index < _children.size()) {
+                                currNode = _children.get(index);
+                                if (currNode == null) {
                                     currNode = new Trie();
                                     currNode.setmmChar(mmChar);
                                     currNode.setPhraseNum(phraseNum);
                                     _children.add(index, currNode);
                                     break;
-                                } else if (_children.get(index) != null) {
-                                    currNode = _children.get(index);
                                 }
+                                // else if (currNode != null) {
+                                // index = getRightChild(index);
+                                // currNode = _children.get(index);
+                                // }
                             }
                         }
                     }
@@ -79,9 +86,9 @@ public class Trie {
     }
 
     // finds a child that contains the mismatched char starting from the index
-    public Trie find(int mmChar, int index) {
+    public Trie find(int mmChar) {
         Trie currNode;
-        int i = index;
+        int i = 0;
         // if (i > _children.size() - 1) {
         // Trie temp = null;
         // _children.add(temp);
@@ -92,27 +99,41 @@ public class Trie {
             if (currNode == null) { // checks if the first child is empty
                 return null;
             } else {
-                while (currNode != null) { // traverse our BST
-                    if (mmChar < currNode.getmmChar()) {
-                        i = currNode.getLeftChild(i);
-                        if (_children.get(i) == null) {
-                            currNode = null;
-                            break;
-                        } else if (_children.get(i) != null) {
-                            currNode = _children.get(i);
+                while (currNode != null) { // traverse our BST of children
+                    if (mmChar < currNode.getmmChar()) { // check if the mmChar is less than the currNode
+                        i = getLeftChild(i);
+                        if (i < _children.size()) {
+                            currNode = _children.get(i); // set the next child to be checked
+                            if (currNode == null) {
+                                break;
+                            }
+                            // else {
+                            // i = getLeftChild(i);
+                            // currNode = _children.get(i);
+                            // }
+
                         }
                         // if (i > _children.size() - 1) { // check if we are over the limit
                         // currNode = null;
                         // break;
                         // }
-                        
+
                     } else if (mmChar > currNode.getmmChar()) {
-                        i = currNode.getRightChild(i);
+                        i = getRightChild(i);
+                        if (i < _children.size()) {
+                            currNode = _children.get(i); // set the next child to be checked
+                            if (currNode == null) {
+                                break;
+                            }
+                            // else {
+                            // i = getLeftChild(i);
+                            // currNode = _children.get(i);
+                            // }
+                        }
                         // if (i > _children.size() - 1) {
                         // currNode = null;
                         // break;
                         // }
-                        currNode = _children.get(i);
                     } else if (mmChar == currNode.getmmChar()) {
                         break;
                     }
@@ -120,13 +141,24 @@ public class Trie {
                 return currNode;
             }
 
-        } catch (Exception x) {
+        } catch (
+
+        Exception x) {
             System.err.println(x);
             x.printStackTrace();
         }
         return currNode;
 
     }
+
+    // private void resize(int maxsize) {
+    // int max = maxsize;
+    // Trie[] newChildren = new Trie[max];
+
+    // for (int i = 0; i < _children.length; i++) {
+
+    // }
+    // }
 
     // returns leftchild index of the given index
     private int getLeftChild(int index) {

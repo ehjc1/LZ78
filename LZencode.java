@@ -25,10 +25,10 @@ public class LZencode {
             // while where are still data to be read
             while (b >= 0) {
                 previousNode = currNode;
-                currNode = currNode.find(b, 0);
+                currNode = currNode.find(b);
                 if (currNode == null) { // check if we have the mmChar in the root's children
                     previousNode.add(b, phraseCounter);
-                    System.out.println(previousNode.getPhraseNum() + "," + b);
+                    System.out.println(previousNode.getPhraseNum() + " " + b);
                     phraseCounter++;
                     currNode = root;
                 } else if (currNode != null) {
@@ -40,7 +40,7 @@ public class LZencode {
             reader.close();
         } catch (Exception x) {
             // prints error
-            System.err.println(x);
+            System.err.println("Encode Error: " + x);
             x.printStackTrace();
         }
 
