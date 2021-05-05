@@ -5,19 +5,20 @@ import java.util.List;
 import javax.lang.model.util.ElementScanner6;
 
 public class Trie {
-    ArrayList<Trie> _children;
-    // Trie[] _children;
+    // ArrayList<Trie> _children;
+    Trie[] _children;
     int _mmChar;
     int _phraseNum;
 
     // Constructor which takes the mismatched character
     public Trie() {
         Trie temp = null;
-        _children = new ArrayList<Trie>();
+        _children = new Trie[1]; // initialise root 
+        // _children = new ArrayList<Trie>();
 
-        for (int i = 0; i < 256; i++) {
-            _children.add(temp);
-        }
+        // for (int i = 0; i < 256; i++) {
+        //     _children.add(temp);
+        // }
         // _children.add(temp);
     }
 
@@ -28,11 +29,17 @@ public class Trie {
         int index = 0;
 
         try {
+            if(index > _children.length) {
+                resize(maxsize);
+            }
             // check if we are adding the empty phrase
             if (mmChar == 0) {
                 setmmChar(mmChar); // set the empty phrase
                 setPhraseNum(phraseNum);
             } else { // otherwise there are already items in our children BST
+                if(index > _children.length) {
+                    resize(index);
+                }
                 currNode = _children.get(index); // start at the root of the BST
                 if (currNode == null) { // check if our children array is empty
                     // add first node in BST of children
@@ -42,6 +49,9 @@ public class Trie {
                     _children.add(index, currNode);
                 } else { // otherwise we already have children
                     while (currNode != null) { // traverse our children BST
+                        if(index > _children.length) {
+                            resize(index);
+                        }
                         // check if mmChar is less than the root
                         if (mmChar < currNode.getmmChar()) {
                             index = getLeftChild(index); // sets the new index to the leftChild index
@@ -151,14 +161,19 @@ public class Trie {
 
     }
 
-    // private void resize(int maxsize) {
-    // int max = maxsize;
-    // Trie[] newChildren = new Trie[max];
+    private void resize(int maxsize) {
+        // set the curr max size needed for tha level of the BST
+        int max = maxsize;
+        Trie[] newChildren = new Trie[max];
 
-    // for (int i = 0; i < _children.length; i++) {
+        // copy all data from old BST to new BST
+        for (int i = 0; i < _children.length; i++) {
+            newChildren[i] = _children[i];
+        }
 
-    // }
-    // }
+        // replace the old BST with a new one
+        _children = newChildren;
+    }
 
     // returns leftchild index of the given index
     private int getLeftChild(int index) {
