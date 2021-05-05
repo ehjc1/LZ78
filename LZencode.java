@@ -17,7 +17,6 @@ public class LZencode {
         Trie currNode;
         Trie previousNode = null;
         int phraseCounter = 1;
-        boolean isAdded = false;
         try {
             root.add(0, 0); // initialise the root
             // stores byte that is read in as an integer
@@ -29,7 +28,7 @@ public class LZencode {
                 currNode = currNode.find(b, 0);
                 if (currNode == null) { // check if we have the mmChar in the root's children
                     previousNode.add(b, phraseCounter);
-                    System.out.println(previousNode.getPhraseNum() + "," + (char)b);
+                    System.out.println(previousNode.getPhraseNum() + "," + (char) b);
                     phraseCounter++;
                     currNode = root;
                 } else if (currNode != null) {

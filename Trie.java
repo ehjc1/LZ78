@@ -17,7 +17,7 @@ public class Trie {
         for (int i = 0; i < 256; i++) {
             _children.add(temp);
         }
-        //_children.add(temp);
+        // _children.add(temp);
     }
 
     // add method that adds the mmChar to the trie
@@ -33,16 +33,16 @@ public class Trie {
                 setPhraseNum(phraseNum);
             } else { // otherwise there are already items in the trie
                 currNode = _children.get(index);
-                if(currNode == null) {
+                if (currNode == null) {
                     currNode = new Trie();
                     currNode.setmmChar(mmChar);
                     currNode.setPhraseNum(phraseNum);
                     _children.add(index, currNode);
                 } else {
                     while (currNode != null) {
-                        if (mmChar < currNode.getmmChar()) { 
+                        if (mmChar < currNode.getmmChar()) {
                             index = getLeftChild(index);
-                            if (index > _children.size() - 1) {
+                            if (index < _children.size() - 1) {
                                 currNode = new Trie();
                                 currNode.setmmChar(mmChar);
                                 currNode.setPhraseNum(phraseNum);
@@ -52,7 +52,7 @@ public class Trie {
                             currNode = _children.get(index);
                         } else if (mmChar > currNode.getmmChar()) {
                             index = getRightChild(index);
-                            if (index > _children.size() - 1) {
+                            if (index < _children.size() - 1) {
                                 currNode = new Trie();
                                 currNode.setmmChar(mmChar);
                                 currNode.setPhraseNum(phraseNum);
@@ -74,34 +74,34 @@ public class Trie {
     public Trie find(int mmChar, int index) {
         Trie currNode;
         int i = index;
-        if(i > _children.size() - 1) {
+        if (i > _children.size() - 1) {
             Trie temp = null;
             _children.add(temp);
             return null;
         }
         currNode = _children.get(i);
         try {
-            if(currNode == null) {
+            if (currNode == null) {
                 return null;
             } else {
-                while(currNode != null) { // traverse our BST
-                    if(mmChar < currNode.getmmChar()) {
+                while (currNode != null) { // traverse our BST
+                    if (mmChar < currNode.getmmChar()) {
                         i = getLeftChild(i);
-                        if(i > _children.size() - 1) {
+                        if (i > _children.size() - 1) {
                             currNode = null;
                             break;
                         }
                         currNode = _children.get(i);
-                    } else if(mmChar > currNode.getmmChar()) {
+                    } else if (mmChar > currNode.getmmChar()) {
                         i = getRightChild(i);
-                        if(i > _children.size() - 1) {
+                        if (i > _children.size() - 1) {
                             currNode = null;
                             break;
                         }
                         currNode = _children.get(i);
-                    } else if (mmChar == currNode.getmmChar()){
+                    } else if (mmChar == currNode.getmmChar()) {
                         break;
-                    } 
+                    }
                 }
                 return currNode;
             }
@@ -111,7 +111,7 @@ public class Trie {
             x.printStackTrace();
         }
         return currNode;
-        
+
     }
 
     // returns leftchild index of the given index
