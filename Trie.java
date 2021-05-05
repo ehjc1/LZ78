@@ -103,6 +103,7 @@ public class Trie {
                         break;
                     } 
                 }
+                return currNode;
             }
 
         } catch (Exception x) {

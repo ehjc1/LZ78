@@ -17,36 +17,26 @@ public class LZencode {
         Trie currNode;
         Trie previousNode = null;
         int phraseCounter = 1;
-        boolean added = false;
+        boolean isAdded = false;
         try {
             root.add(0, 0); // initialise the root
             // stores byte that is read in as an integer
             int b = reader.read();
-            currNode = root.find(b, 0);
-            previousNode = currNode;
+            currNode = root; // start at the root
             // while where are still data to be read
-            while (b >= 0) { 
+            while (b >= 0) {
+                previousNode = currNode;
+                currNode = currNode.find(b, 0);
                 if (currNode == null) { // check if we have the mmChar in the root's children
-                    root.add(b, phraseCounter);
-                    System.out.println(root.getPhraseNum() + "," + b);
+                    previousNode.add(b, phraseCounter);
+                    System.out.println(previousNode.getPhraseNum() + "," + (char)b);
                     phraseCounter++;
+                    currNode = root;
                 } else if (currNode != null) {
                     // we have found a match in our children
                     previousNode = currNode;
-                    b = reader.read();
-                    while(b)
-                    while (currNode != null) { // traverse the trie
-                        previousNode = currNode;
-                        currNode = currNode.find(b, 0);
-                    }
-                    if (currNode == null) {
-                        previousNode.add(b, phraseCounter);
-                        System.out.println(previousNode.getPhraseNum() + "," + b);
-                        phraseCounter++;
-                    }
                 }
                 b = reader.read(); // read the next byte
-
             }
             reader.close();
         } catch (Exception x) {

@@ -1,26 +1,12 @@
 Trie side:0
-0,97
+0,a
 Trie side:1
-1,97
+1,b
 Trie side:0
-0,98
+0,b
 Trie side:0
-0,98
-Trie side:0
-0,99
+0,c
 Trie side:2
-2,97
-Trie side:0
-0,98
-Trie side:0
-0,98
-Trie side:6
-6,97
-Trie side:0
-0,98
-Trie side:0
-0,98
-Trie side:0
-0,98
-Trie side:9
-9,97
+2,b
+Trie side:5
+5,b
