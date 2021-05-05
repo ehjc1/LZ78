@@ -2,6 +2,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.lang.model.util.ElementScanner6;
+
 public class Trie {
     ArrayList<Trie> _children;
     int _mmChar;
@@ -9,14 +11,19 @@ public class Trie {
 
     // Constructor which takes the mismatched character
     public Trie() {
+        Trie temp = null;
+        _children = new ArrayList<Trie>();
 
+        for (int i = 0; i < 256; i++) {
+            _children.add(temp);
+        }
+        //_children.add(temp);
     }
 
     // add method that adds the mmChar to the trie
     // takes the current available phraseNumber followed by the mmChar
     public void add(int mmChar, int phraseNum) {
         Trie currNode;
-        Trie nextNode;
         int index = 0;
 
         try {
@@ -25,23 +32,35 @@ public class Trie {
                 setmmChar(mmChar); // set the empty phrase
                 setPhraseNum(phraseNum);
             } else { // otherwise there are already items in the trie
-
-                root = _children.get(index);
-                leftChild = _children.get(getLeftChild(index));
-                rightChild = _children.get(getRightChild(index));
-
-                while (index < _children.size()) {
-
-                    if (mmChar < root.getmmChar() && leftChild != null) { // check if mmChar is less than the
-                                                                          // root
-                        leftChild.add(mmChar, phraseNum); // if so pass the value to our leftChild
-
-                    } else if (mmChar > root.getmmChar() && rightChild != null) { // check if mmChar is greater than the
-                                                                                  // root
-                        rightChild.add(mmChar, phraseNum); // if so pass mmChar to our rightChild
-
-                    } else { // we couldn't find the mmChar in our list of children
-
+                currNode = _children.get(index);
+                if(currNode == null) {
+                    currNode = new Trie();
+                    currNode.setmmChar(mmChar);
+                    currNode.setPhraseNum(phraseNum);
+                    _children.add(index, currNode);
+                } else {
+                    while (currNode != null) {
+                        if (mmChar < currNode.getmmChar()) { 
+                            index = getLeftChild(index);
+                            if (index > _children.size() - 1) {
+                                currNode = new Trie();
+                                currNode.setmmChar(mmChar);
+                                currNode.setPhraseNum(phraseNum);
+                                _children.add(index, currNode);
+                                break;
+                            }
+                            currNode = _children.get(index);
+                        } else if (mmChar > currNode.getmmChar()) {
+                            index = getRightChild(index);
+                            if (index > _children.size() - 1) {
+                                currNode = new Trie();
+                                currNode.setmmChar(mmChar);
+                                currNode.setPhraseNum(phraseNum);
+                                _children.add(index, currNode);
+                                break;
+                            }
+                            currNode = _children.get(index);
+                        }
                     }
                 }
             }
@@ -53,29 +72,45 @@ public class Trie {
 
     // finds a child that contains the mismatched char starting from the index
     public Trie find(int mmChar, int index) {
-        Trie root;
-        Trie leftChild;
-        Trie rightChild;
-
-        root = _children.get(index);
-        leftChild = _children.get(getLeftChild(index));
-        rightChild = _children.get(getRightChild(index));
-
-        if (root.getmmChar() == mmChar) { // check if the root value is the same as the mismatched char
-
-            return root; // return the that child if so
-
-        } else if (mmChar < root.getmmChar() && leftChild != null) { // check if mmChar is less than the root
-
-            return leftChild.find(mmChar, getLeftChild(index)); // if so pass the value to our leftChild
-
-        } else if (mmChar > root.getmmChar() && rightChild != null) { // check if mmChar is greater than the root
-
-            return rightChild.find(mmChar, getRightChild(index)); // if so pass mmChar to our rightChild
-
-        } else { // we couldn't find the mmChar in our list of children
-            return null; // return nothing as the mmChar is not in our arraylist of children
+        Trie currNode;
+        int i = index;
+        if(i > _children.size() - 1) {
+            Trie temp = null;
+            _children.add(temp);
+            return null;
         }
+        currNode = _children.get(i);
+        try {
+            if(currNode == null) {
+                return null;
+            } else {
+                while(currNode != null) { // traverse our BST
+                    if(mmChar < currNode.getmmChar()) {
+                        i = getLeftChild(i);
+                        if(i > _children.size() - 1) {
+                            currNode = null;
+                            break;
+                        }
+                        currNode = _children.get(i);
+                    } else if(mmChar > currNode.getmmChar()) {
+                        i = getRightChild(i);
+                        if(i > _children.size() - 1) {
+                            currNode = null;
+                            break;
+                        }
+                        currNode = _children.get(i);
+                    } else if (mmChar == currNode.getmmChar()){
+                        break;
+                    } 
+                }
+            }
+
+        } catch (Exception x) {
+            System.err.println(x);
+            x.printStackTrace();
+        }
+        return currNode;
+        
     }
 
     // returns leftchild index of the given index
@@ -93,18 +128,8 @@ public class Trie {
         return this._mmChar;
     }
 
-    // get the parent
-    private Trie getParent() {
-        return this._parent;
-    }
-
     public int getPhraseNum() {
         return this._phraseNum;
-    }
-
-    // set parent
-    private void setParent(Trie parent) {
-        this._parent = parent;
     }
 
     // set mmchar
@@ -112,6 +137,7 @@ public class Trie {
         this._mmChar = mmChar;
     }
 
+    // set phraseNum
     private void setPhraseNum(int phraseNum) {
         this._phraseNum = phraseNum;
     }
