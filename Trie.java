@@ -130,7 +130,6 @@ public class Trie {
     }
 
     public int getPhraseNum() {
-        System.out.println("Trie side:" + this._phraseNum);
         return this._phraseNum;
     }
 
