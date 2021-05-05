@@ -1,0 +1,26 @@
+Trie side:0
+0,97
+Trie side:1
+1,97
+Trie side:0
+0,98
+Trie side:0
+0,98
+Trie side:0
+0,99
+Trie side:2
+2,97
+Trie side:0
+0,98
+Trie side:0
+0,98
+Trie side:6
+6,97
+Trie side:0
+0,98
+Trie side:0
+0,98
+Trie side:0
+0,98
+Trie side:9
+9,97
