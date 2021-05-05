@@ -11,7 +11,7 @@ public class LZencode {
 
     public static void encode() throws Exception {
         // Reader reader = new InputStreamReader(System.in);
-        Reader reader = new FileReader("./test.txt");
+        Reader reader = new FileReader("./MobyDick.txt");
         // create the empty phrase
         Trie root = new Trie();
         Trie currNode;
@@ -28,7 +28,7 @@ public class LZencode {
                 currNode = currNode.find(b, 0);
                 if (currNode == null) { // check if we have the mmChar in the root's children
                     previousNode.add(b, phraseCounter);
-                    System.out.println(previousNode.getPhraseNum() + "," + (char) b);
+                    System.out.println(previousNode.getPhraseNum() + "," + b);
                     phraseCounter++;
                     currNode = root;
                 } else if (currNode != null) {

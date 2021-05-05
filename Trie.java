@@ -31,35 +31,43 @@ public class Trie {
             if (mmChar == 0) {
                 setmmChar(mmChar); // set the empty phrase
                 setPhraseNum(phraseNum);
-            } else { // otherwise there are already items in the trie
-                currNode = _children.get(index);
-                if (currNode == null) {
+            } else { // otherwise there are already items in our children BST
+                currNode = _children.get(index); // start at the root of the BST
+                if (currNode == null) { // check if our children array is empty
+                    // add first node in BST of children
                     currNode = new Trie();
                     currNode.setmmChar(mmChar);
                     currNode.setPhraseNum(phraseNum);
                     _children.add(index, currNode);
-                } else {
-                    while (currNode != null) {
+                } else { // otherwise we already have children
+                    while (currNode != null) { // traverse our children BST
+                        // check if mmChar is less than the root
                         if (mmChar < currNode.getmmChar()) {
-                            index = getLeftChild(index);
+                            index = currNode.getLeftChild(index); // sets the new index to the leftChild index
                             if (index < _children.size() - 1) {
-                                currNode = new Trie();
-                                currNode.setmmChar(mmChar);
-                                currNode.setPhraseNum(phraseNum);
-                                _children.add(index, currNode);
-                                break;
+                                if (_children.get(index) == null) {
+                                    currNode = new Trie();
+                                    currNode.setmmChar(mmChar);
+                                    currNode.setPhraseNum(phraseNum);
+                                    _children.add(index, currNode);
+                                    break;
+                                } else if (_children.get(index) != null) {
+                                    currNode = _children.get(index);
+                                }
                             }
-                            currNode = _children.get(index);
                         } else if (mmChar > currNode.getmmChar()) {
-                            index = getRightChild(index);
+                            index = currNode.getRightChild(index);
                             if (index < _children.size() - 1) {
-                                currNode = new Trie();
-                                currNode.setmmChar(mmChar);
-                                currNode.setPhraseNum(phraseNum);
-                                _children.add(index, currNode);
-                                break;
+                                if (_children.get(index) == null) {
+                                    currNode = new Trie();
+                                    currNode.setmmChar(mmChar);
+                                    currNode.setPhraseNum(phraseNum);
+                                    _children.add(index, currNode);
+                                    break;
+                                } else if (_children.get(index) != null) {
+                                    currNode = _children.get(index);
+                                }
                             }
-                            currNode = _children.get(index);
                         }
                     }
                 }
@@ -74,30 +82,36 @@ public class Trie {
     public Trie find(int mmChar, int index) {
         Trie currNode;
         int i = index;
-        if (i > _children.size() - 1) {
-            Trie temp = null;
-            _children.add(temp);
-            return null;
-        }
+        // if (i > _children.size() - 1) {
+        // Trie temp = null;
+        // _children.add(temp);
+        // return null;
+        // }
         currNode = _children.get(i);
         try {
-            if (currNode == null) {
+            if (currNode == null) { // checks if the first child is empty
                 return null;
             } else {
                 while (currNode != null) { // traverse our BST
                     if (mmChar < currNode.getmmChar()) {
-                        i = getLeftChild(i);
-                        if (i > _children.size() - 1) {
+                        i = currNode.getLeftChild(i);
+                        if (_children.get(i) == null) {
                             currNode = null;
                             break;
+                        } else if (_children.get(i) != null) {
+                            currNode = _children.get(i);
                         }
-                        currNode = _children.get(i);
+                        // if (i > _children.size() - 1) { // check if we are over the limit
+                        // currNode = null;
+                        // break;
+                        // }
+                        
                     } else if (mmChar > currNode.getmmChar()) {
-                        i = getRightChild(i);
-                        if (i > _children.size() - 1) {
-                            currNode = null;
-                            break;
-                        }
+                        i = currNode.getRightChild(i);
+                        // if (i > _children.size() - 1) {
+                        // currNode = null;
+                        // break;
+                        // }
                         currNode = _children.get(i);
                     } else if (mmChar == currNode.getmmChar()) {
                         break;
