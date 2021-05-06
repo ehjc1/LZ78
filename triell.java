@@ -32,23 +32,28 @@ public class triell {
                 this.pNumber = phraseNumber;
                 this.parent = null;
             } else {
-                previous = current;
-                // Type any pseudo code here
-                while (current != null) {
-                    // we have a child
-                    previous = current; // set previous to current
-                    current = current.rSibling; // set current to the next sibling
-                }
-                if(previous == null) {
-                    previous = this;
-                }
-                if(current == null) {
+                if(fChild == null) {
                     current = new triell();
                     current.mismatch = mismatchChar;
                     current.pNumber = phraseNumber;
-                    current.parent = previous;
-                    previous.rSibling = current;
-                } 
+                    current.parent = this;
+                    fChild = current;
+                } else {
+                    // Type any pseudo code here
+                    while (current != null) {
+                        // we have a child
+                        previous = current; // set previous to current
+                        current = current.rSibling; // set current to the next sibling
+                    }
+                    if(current == null) {
+                        current = new triell();
+                        current.mismatch = mismatchChar;
+                        current.pNumber = phraseNumber;
+                        current.parent = previous;
+                        previous.rSibling = current;
+                    } 
+                }
+               
             }
 
         } catch (Exception ex) {
