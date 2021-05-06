@@ -1,18 +1,38 @@
 public class newTrie {
 
-    private int pNumber;
-    private int mmChar;
-    private newTrie next;
+    node head;
 
     public void add(int phraseNumber, int mismatchCharacter) {
 
-        newTrie n = new newTrie();
-        n.pNumber = phraseNumber;
-        n.mmChar = mismatchCharacter;
+        node current = new node(phraseNumber, mismatchCharacter);
+        current.next = head;
+        head = current;
+        return;
+    }
+
+    public node find(int mismatchCharacter) {
+
+        node current = head;
+        while (current != null) {
+            if (current.mmChar == mismatchCharacter) {
+                return current;
+            }
+            else current = current.next;
+        }
+        return null;
 
     }
 
-    public void find(int mismatchCharacter) {
+    public class node { 
+
+        private int pNumber;
+        private int mmChar;
+        public node next;
+
+        public node(int phraseNumber, int mismatchCharacter) {
+            pNumber = phraseNumber;
+            mmChar = mismatchCharacter;
+        }
 
     }
 
