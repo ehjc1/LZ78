@@ -27,18 +27,28 @@ public class triell {
         triell current = fChild;
         triell previous = null;
         try {
-            // Type any pseudo code here
-            while (current != null) {
-                // we have a child
-                previous = current; // set previous to current
-                current = current.rSibling; // set current to the next sibling
-            }
-            if(current == null && previous != null) {
-                current = new triell();
-                current.mismatch = mismatchChar;
-                current.pNumber = phraseNumber;
-                current.parent = previous;
-                previous.rSibling = current;
+            if(mismatchChar == 0) {
+                this.mismatch = mismatchChar;
+                this.pNumber = phraseNumber;
+                this.parent = null;
+            } else {
+                previous = current;
+                // Type any pseudo code here
+                while (current != null) {
+                    // we have a child
+                    previous = current; // set previous to current
+                    current = current.rSibling; // set current to the next sibling
+                }
+                if(previous == null) {
+                    previous = this;
+                }
+                if(current == null) {
+                    current = new triell();
+                    current.mismatch = mismatchChar;
+                    current.pNumber = phraseNumber;
+                    current.parent = previous;
+                    previous.rSibling = current;
+                } 
             }
 
         } catch (Exception ex) {
