@@ -14,13 +14,14 @@ public class LZdecode {
     }
 
     private void decode() {
-
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in)); // A reader for the data being
+        
+        //BufferedReader reader = new BufferedReader(new InputStreamReader(System.in)); // A reader for the data being
                                                                                       // piped in
         BufferedWriter writer; // Not sure if the final output is meant to be a file, or just standard output.
         String currentLine;
 
         try {
+            BufferedReader reader = new BufferedReader(new FileReader("./out.txt"));
             currentLine = reader.readLine();
             while (currentLine != null) {
                 dictionary.add(currentLine.split(" ")); // Add the next phrase
@@ -38,12 +39,13 @@ public class LZdecode {
         String[] tuple = dictionary.get(dictionary.size() - 1); // Get the last tuple in the dictionary
         try {
             stack.add(tuple[1]); // Add the mismatch to the stack
-            while (Integer.parseInt(tuple[0]) != 0) {
+            while (Integer.parseInt(tuple[0].trim()) != 0) {
                 tuple = dictionary.get(Integer.parseInt(tuple[0]) - 1);
                 stack.add(tuple[1]);
             }
         } catch (Exception ex) {
-            System.err.println("Get error: " + ex.getStackTrace());
+            //System.err.println("Get error: " + ex.getStackTrace());
+            ex.printStackTrace();
         }
     }
 
