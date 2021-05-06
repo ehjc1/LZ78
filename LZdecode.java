@@ -1,3 +1,9 @@
+
+/*
+    Names:  Eugene Chew     ,   Zachary Cui
+    IDs:    1351553         ,   1364880
+
+*/
 import java.util.*;
 import java.io.*;
 
@@ -14,9 +20,10 @@ public class LZdecode {
     }
 
     private void decode() {
-        
-        //BufferedReader reader = new BufferedReader(new InputStreamReader(System.in)); // A reader for the data being
-                                                                                      // piped in
+
+        // BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        // // A reader for the data being
+        // piped in
         BufferedWriter writer; // Not sure if the final output is meant to be a file, or just standard output.
         String currentLine;
 
@@ -44,7 +51,7 @@ public class LZdecode {
                 stack.add(tuple[1]);
             }
         } catch (Exception ex) {
-            //System.err.println("Get error: " + ex.getStackTrace());
+            // System.err.println("Get error: " + ex.getStackTrace());
             ex.printStackTrace();
         }
     }

@@ -7,3 +7,5 @@ command chain preset:
 
 e.g.
 'cat MobyDick.txt | java LZencode | java LZdecode > out.txt'
+
+limitation:

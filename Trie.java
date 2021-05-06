@@ -1,3 +1,9 @@
+
+/*
+    Names:  Eugene Chew     ,   Zachary Cui
+    IDs:    1351553         ,   1364880
+
+*/
 import java.util.*;
 
 public class Trie {

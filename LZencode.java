@@ -1,3 +1,9 @@
+/*
+    Names:  Eugene Chew     ,   Zachary Cui
+    IDs:    1351553         ,   1364880
+
+*/
+
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.InputStreamReader;
@@ -10,13 +16,11 @@ public class LZencode {
     }
 
     public static void encode() throws Exception {
-        // Reader reader = new InputStreamReader(System.in);
-        // Reader reader = new FileReader("./MobyDick.txt");
         // create the empty phrase
         Trie root = new Trie();
         Trie currNode;
         Trie previousNode = null;
-        int phraseCounter = 1;
+        int phraseCounter = 1; // set phrase Counter
         try {
             root.add(0, 0); // initialise the root
             // stores byte that is read in as an integer
@@ -24,13 +28,14 @@ public class LZencode {
             currNode = root; // start at the root
             // while where are still data to be read
             while (mismatch >= 0) {
-                previousNode = currNode;
-                currNode = currNode.find(mismatch);
-                if (currNode == null) { // check if we have the mmChar in the root's children
-                    previousNode.add(phraseCounter, mismatch);
-                    System.out.println(previousNode.getpNumber() + " " + mismatch);
-                    phraseCounter++;
-                    currNode = root;
+                previousNode = currNode; // set previous node to the current node
+                currNode = currNode.find(mismatch); // finds the next node from current into current
+                if (currNode == null) { // check if we need to add a new node
+                    previousNode.add(phraseCounter, mismatch); // add the node
+                    System.out.println(previousNode.getpNumber() + " " + mismatch); // output phrase number and the
+                                                                                    // mismatch character
+                    phraseCounter++; // increment phrase counter
+                    currNode = root; // reset currNode back to the root
                 } else if (currNode != null) {
                     // we have found a match in our children
                     previousNode = currNode;
