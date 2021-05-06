@@ -13,10 +13,10 @@ public class triell {
     triell fChild;
     triell parent;
 
-    static int largestPhraseNumber = 0; 
+    static int largestPhraseNumber = 0;
     static triell pointer;
 
-    public triell() { // triell (name) = new triell(); 
+    public triell() { // triell (name) = new triell();
         rSibling = null;
         fChild = null;
         parent = null;
@@ -27,12 +27,12 @@ public class triell {
         triell current = fChild;
         triell previous = null;
         try {
-            if(mismatchChar == 0) {
+            if (mismatchChar == 0) {
                 this.mismatch = mismatchChar;
                 this.pNumber = phraseNumber;
                 this.parent = null;
             } else {
-                if(fChild == null) {
+                if (fChild == null) {
                     current = new triell();
                     current.mismatch = mismatchChar;
                     current.pNumber = phraseNumber;
@@ -45,15 +45,15 @@ public class triell {
                         previous = current; // set previous to current
                         current = current.rSibling; // set current to the next sibling
                     }
-                    if(current == null) {
+                    if (current == null) {
                         current = new triell();
                         current.mismatch = mismatchChar;
                         current.pNumber = phraseNumber;
-                        current.parent = previous;
+                        current.parent = this;
                         previous.rSibling = current;
-                    } 
+                    }
                 }
-               
+
             }
 
         } catch (Exception ex) {
@@ -64,10 +64,10 @@ public class triell {
     public triell find(int mismatch) {
         triell curr = fChild; // start looking from the first child
 
-        while(curr != null) { // while there is still something
-            if(mismatch != curr.getMisMatch()) {
-                if(curr.rSibling != null) {
-                    curr = rSibling;
+        while (curr != null) { // while there is still something
+            if (mismatch != curr.getMisMatch()) {
+                if (curr.rSibling != null) {
+                    curr = curr.rSibling;
                 } else {
                     curr = null;
                 }
@@ -75,13 +75,14 @@ public class triell {
                 break;
             }
         }
-        
+
         return curr;
     }
 
     public int getpNumber() {
         return this.pNumber;
     }
+
     private int getMisMatch() {
         return this.mismatch;
     }

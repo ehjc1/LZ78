@@ -23,7 +23,7 @@ public class LZdecode {
         try {
             currentLine = reader.readLine();
             while (currentLine != null) {
-                dictionary.add(currentLine.split(",")); // Add the next phrase
+                dictionary.add(currentLine.split(" ")); // Add the next phrase
                 get();
                 printStack();
                 currentLine = reader.readLine();

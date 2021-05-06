@@ -28,7 +28,7 @@ public class LZencode {
                 currNode = currNode.find(mismatch);
                 if (currNode == null) { // check if we have the mmChar in the root's children
                     previousNode.add(phraseCounter, mismatch);
-                    System.out.println(previousNode.getpNumber() + "," + mismatch);
+                    System.out.println(previousNode.getpNumber() + " " + (char) mismatch);
                     phraseCounter++;
                     currNode = root;
                 } else if (currNode != null) {
