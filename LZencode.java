@@ -15,6 +15,7 @@ public class LZencode {
         encode();
     }
 
+    // method that encodes the file
     public static void encode() throws Exception {
         // create the empty phrase
         Trie root = new Trie();
@@ -32,8 +33,12 @@ public class LZencode {
                 currNode = currNode.find(mismatch); // finds the next node from current into current
                 if (currNode == null) { // check if we need to add a new node
                     previousNode.add(phraseCounter, mismatch); // add the node
-                    System.out.println(previousNode.getpNumber() + " " + mismatch); // output phrase number and the
-                                                                                    // mismatch character
+                    System.out.println(String.valueOf(previousNode.getpNumber()) + " " + String.valueOf(mismatch)); // output
+                                                                                                                    // phrase
+                                                                                                                    // number
+                                                                                                                    // and
+                                                                                                                    // the
+                    // mismatch character
                     phraseCounter++; // increment phrase counter
                     currNode = root; // reset currNode back to the root
                 } else if (currNode != null) {
