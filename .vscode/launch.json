@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch LZdecode",
+            "request": "launch",
+            "mainClass": "LZdecode",
+            "projectName": "compx301_A2_8db348cb"
+        },
+        {
+            "type": "java",
             "name": "Launch LZencode",
             "request": "launch",
             "mainClass": "LZencode",

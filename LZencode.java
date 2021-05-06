@@ -11,16 +11,16 @@ public class LZencode {
 
     public static void encode() throws Exception {
         // Reader reader = new InputStreamReader(System.in);
-        Reader reader = new FileReader("./MobyDick.txt");
+        // Reader reader = new FileReader("./MobyDick.txt");
         // create the empty phrase
-        triell root = new triell();
-        triell currNode;
-        triell previousNode = null;
+        Trie root = new Trie();
+        Trie currNode;
+        Trie previousNode = null;
         int phraseCounter = 1;
         try {
             root.add(0, 0); // initialise the root
             // stores byte that is read in as an integer
-            int mismatch = reader.read();
+            int mismatch = System.in.read();
             currNode = root; // start at the root
             // while where are still data to be read
             while (mismatch >= 0) {
@@ -35,9 +35,9 @@ public class LZencode {
                     // we have found a match in our children
                     previousNode = currNode;
                 }
-                mismatch = reader.read(); // read the next byte
+                mismatch = System.in.read(); // read the next byte
             }
-            reader.close();
+            System.out.flush();
         } catch (Exception x) {
             // prints error
             System.err.println(x);
