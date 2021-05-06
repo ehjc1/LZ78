@@ -71,6 +71,8 @@ public class Trie {
                                 // index = getLeftChild(index);
                                 // currNode = _children.get(index);
                                 // }
+                            } else {
+                                System.out.println("Adding at index greater than size of array");
                             }
                         } else if (mmChar > currNode.getmmChar()) {
                             index = getRightChild(index);
@@ -88,6 +90,8 @@ public class Trie {
                                 // index = getRightChild(index);
                                 // currNode = _children.get(index);
                                 // }
+                            } else {
+                                System.out.println("Adding at index greater than size of array");
                             }
                         }
                     }
@@ -126,6 +130,10 @@ public class Trie {
                             // currNode = _children.get(i);
                             // }
 
+                        } else {
+                            i = 0;
+                            currNode = null;
+                            break;
                         }
                         // if (i > _children.size() - 1) { // check if we are over the limit
                         // currNode = null;
@@ -133,6 +141,7 @@ public class Trie {
                         // }
 
                     } else if (mmChar > currNode.getmmChar()) {
+                        
                         i = getRightChild(i);
                         if (i < _children.length) {
                             currNode = _children[i]; // set the next child to be checked
@@ -143,6 +152,10 @@ public class Trie {
                             // i = getLeftChild(i);
                             // currNode = _children.get(i);
                             // }
+                        } else {
+                            i = 0;
+                            currNode = null;
+                            break;
                         }
                         // if (i > _children.size() - 1) {
                         // currNode = null;

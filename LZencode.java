@@ -23,7 +23,7 @@ public class LZencode {
             int b = reader.read();
             currNode = root; // start at the root
             // while where are still data to be read
-            while (b >= 0) {
+            while (b != -1) {
                 if(phraseCounter == 270) {
                     System.out.println("");
                 }
