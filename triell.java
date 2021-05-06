@@ -16,59 +16,58 @@ public class triell {
     static int largestPhraseNumber = 0; 
     static triell pointer;
 
-    public triell() {
+    public triell() { // triell (name) = new triell(); 
         rSibling = null;
         fChild = null;
         parent = null;
-
     }
 
-    public void add(int mismatchChar) {
+    public void add(int phraseNumber, int mismatchChar) {
 
+        triell current = fChild;
+        triell previous = null;
         try {
-            if (fChild == null && largestPhraseNumber == 0) { // This is a given, the 1st thing we're adding 
-                triell first = new triell(); 
-                fChild = first;
-                first.parent = this;
-                first.mismatch = mismatchChar;
-                pNumber = largestPhraseNumber++; 
+            // Type any pseudo code here
+            while (current != null) {
+                // we have a child
+                previous = current; // set previous to current
+                current = current.rSibling; // set current to the next sibling
             }
-            else  { 
-                if (fChild.mismatch == mismatchChar) {
-                    
-                }
-                triell next = fChild.rSibling; // Scanning 'horiziontally' for any matches
-                while (next.rSibling != null) { // While we still have right siblings to compare with
-
-                    if (mismatch == next.mismatch) { // if we found a match, then go a level deeper 
-                        next.fChild = next;
-                        while (next.fChild != null) { 
-                            // While we can keep going downward
-                            add(mismatchChar);
-                        }
-                        // We've reached the end
-                        triell child = new triell();
-                        child.parent = next;
-                        child.mismatch = mismatchChar;
-                        child.pNumber = largestPhraseNumber++;
-                        break;
-                    }
-
-                    next = next.rSibling; // Move onto the next right sibling
-                }
-                // Needs a new node at that level
-                if (next.rSibling == null) {
-                    triell sibling = new triell(); 
-                    sibling.pNumber = largestPhraseNumber++;
-                    sibling.mismatch = mismatchChar;
-                    sibling.parent = next.parent;
-                    next.rSibling = sibling;
-                }
-
+            if(current == null && previous != null) {
+                current = new triell();
+                current.mismatch = mismatchChar;
+                current.pNumber = phraseNumber;
+                current.parent = previous;
+                previous.rSibling = current;
             }
+
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
 
+    public triell find(int mismatch) {
+        triell curr = fChild; // start looking from the first child
+
+        while(curr != null) { // while there is still something
+            if(mismatch != curr.getMisMatch()) {
+                if(curr.rSibling != null) {
+                    curr = rSibling;
+                } else {
+                    curr = null;
+                }
+            } else {
+                break;
+            }
+        }
+        
+        return curr;
+    }
+
+    public int getpNumber() {
+        return this.pNumber;
+    }
+    private int getMisMatch() {
+        return this.mismatch;
     }
 }
