@@ -24,6 +24,9 @@ public class LZencode {
             currNode = root; // start at the root
             // while where are still data to be read
             while (b >= 0) {
+                if(phraseCounter == 270) {
+                    System.out.println("");
+                }
                 previousNode = currNode;
                 currNode = currNode.find(b);
                 if (currNode == null) { // check if we have the mmChar in the root's children
@@ -37,6 +40,7 @@ public class LZencode {
                 }
                 b = reader.read(); // read the next byte
             }
+            
             reader.close();
         } catch (Exception x) {
             // prints error

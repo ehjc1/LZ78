@@ -12,8 +12,7 @@ public class Trie {
 
     // Constructor which takes the mismatched character
     public Trie() {
-        Trie temp = null;
-        _children = new Trie[1]; // initialise root 
+        _children = new Trie[256]; // initialise root 
         // _children = new ArrayList<Trie>();
 
         // for (int i = 0; i < 256; i++) {
@@ -29,39 +28,43 @@ public class Trie {
         int index = 0;
 
         try {
-            if(index > _children.length) {
-                resize(maxsize);
-            }
+            // if(index > _children.length) {
+            //     resize(maxsize);
+            // }
             // check if we are adding the empty phrase
             if (mmChar == 0) {
                 setmmChar(mmChar); // set the empty phrase
                 setPhraseNum(phraseNum);
             } else { // otherwise there are already items in our children BST
-                if(index > _children.length) {
-                    resize(index);
-                }
-                currNode = _children.get(index); // start at the root of the BST
+                // if(index > _children.length) {
+                //     resize(index);
+                // }
+                currNode = _children[index]; // start at the root of the BST
                 if (currNode == null) { // check if our children array is empty
                     // add first node in BST of children
                     currNode = new Trie();
                     currNode.setmmChar(mmChar);
                     currNode.setPhraseNum(phraseNum);
-                    _children.add(index, currNode);
+                    _children[index] = currNode;
+                    index = 0;
+                    //_children.add(index, currNode);
                 } else { // otherwise we already have children
                     while (currNode != null) { // traverse our children BST
-                        if(index > _children.length) {
-                            resize(index);
-                        }
+                        // if(index > _children.length) {
+                        //     resize(index);
+                        // }
                         // check if mmChar is less than the root
                         if (mmChar < currNode.getmmChar()) {
                             index = getLeftChild(index); // sets the new index to the leftChild index
-                            if (index < _children.size()) {
-                                currNode = _children.get(index);
+                            if (index < _children.length) {
+                                currNode = _children[index];
                                 if (currNode == null) {
                                     currNode = new Trie();
                                     currNode.setmmChar(mmChar);
                                     currNode.setPhraseNum(phraseNum);
-                                    _children.add(index, currNode);
+                                    _children[index] = currNode;
+                                    //_children.add(index, currNode);
+                                    index = 0;
                                     break;
                                 }
                                 // else {
@@ -71,13 +74,14 @@ public class Trie {
                             }
                         } else if (mmChar > currNode.getmmChar()) {
                             index = getRightChild(index);
-                            if (index < _children.size()) {
-                                currNode = _children.get(index);
+                            if (index < _children.length) {
+                                currNode = _children[index];
                                 if (currNode == null) {
                                     currNode = new Trie();
                                     currNode.setmmChar(mmChar);
                                     currNode.setPhraseNum(phraseNum);
-                                    _children.add(index, currNode);
+                                    _children[index] = currNode;
+                                    index = 0;
                                     break;
                                 }
                                 // else if (currNode != null) {
@@ -104,7 +108,7 @@ public class Trie {
         // _children.add(temp);
         // return null;
         // }
-        currNode = _children.get(i);
+        currNode = _children[i];
         try {
             if (currNode == null) { // checks if the first child is empty
                 return null;
@@ -112,8 +116,8 @@ public class Trie {
                 while (currNode != null) { // traverse our BST of children
                     if (mmChar < currNode.getmmChar()) { // check if the mmChar is less than the currNode
                         i = getLeftChild(i);
-                        if (i < _children.size()) {
-                            currNode = _children.get(i); // set the next child to be checked
+                        if (i < _children.length) {
+                            currNode = _children[i]; // set the next child to be checked
                             if (currNode == null) {
                                 break;
                             }
@@ -130,8 +134,8 @@ public class Trie {
 
                     } else if (mmChar > currNode.getmmChar()) {
                         i = getRightChild(i);
-                        if (i < _children.size()) {
-                            currNode = _children.get(i); // set the next child to be checked
+                        if (i < _children.length) {
+                            currNode = _children[i]; // set the next child to be checked
                             if (currNode == null) {
                                 break;
                             }
@@ -145,6 +149,7 @@ public class Trie {
                         // break;
                         // }
                     } else if (mmChar == currNode.getmmChar()) {
+                        i = 0;
                         break;
                     }
                 }
